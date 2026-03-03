@@ -1,0 +1,48 @@
+# =============================================================================
+# Esquema de Validación ShEx (Shape Expressions)
+# Clínica Bienestar + Catálogo Nacional de Hospitales
+# Tarea Final - Web Semántica y Datos Abiertos
+# =============================================================================
+
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+PREFIX sdo:    <https://schema.org/>
+PREFIX clinic: <http://www.clinica-bienestar.es/ontology#>
+
+# --- Forma para un Paciente ---
+# Un Paciente DEBE tener: tipo, idPaciente, nombre, fechaNacimiento
+# Un Paciente PUEDE tener: cero o más citas (cada una conforme a CitaShape)
+<PacienteShape> {
+  a              [clinic:Paciente] ;
+  clinic:idPaciente  xsd:string    ;
+  foaf:name          xsd:string    ;
+  sdo:birthDate      xsd:date      ;
+  clinic:tieneCita   @<CitaShape>*
+}
+
+# --- Forma para una Cita Médica ---
+# Una Cita DEBE tener: tipo, fechaCita (dateTime), diagnóstico CIE-10 (string)
+<CitaShape> {
+  a                     [clinic:Cita]  ;
+  clinic:fechaCita      xsd:dateTime   ;
+  clinic:conDiagnostico xsd:string
+}
+
+# --- Forma para un Hospital ---
+# Un Hospital DEBE tener: tipo, nombre, identificador, dirección postal
+<HospitalShape> {
+  a              [sdo:Hospital]          ;
+  sdo:name       xsd:string             ;
+  sdo:identifier xsd:string             ;
+  sdo:address    @<PostalAddressShape>
+}
+
+# --- Forma para una Dirección Postal ---
+# Una Dirección DEBE tener: tipo, calle, código postal, localidad
+<PostalAddressShape> {
+  a                   [sdo:PostalAddress] ;
+  sdo:streetAddress   xsd:string         ;
+  sdo:postalCode      xsd:string         ;
+  sdo:addressLocality xsd:string
+}

@@ -1,0 +1,153 @@
+# =============================================================================
+# Grafo RDF de Datos Abiertos - Catálogo Nacional de Hospitales (España)
+# Fuente: https://datos.gob.es/es/catalogo/e05070101-centros-y-servicios-del-sns-catalogo-nacional-de-hospitales
+# Transformado a RDF usando Schema.org
+# Tarea Final - Web Semántica y Datos Abiertos
+# =============================================================================
+
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdo:      <https://schema.org/> .
+@prefix hospital: <http://datos.gob.es/recurso/hospital/> .
+@prefix address:  <http://datos.gob.es/recurso/address/> .
+
+# --- Hospital Universitario La Paz (Madrid) ---
+hospital:280013 a sdo:Hospital ;
+    sdo:name             "HOSPITAL UNIVERSITARIO LA PAZ" ;
+    sdo:identifier       "280013" ;
+    sdo:numberOfBeds     1300 ;
+    sdo:address          address:280013_addr .
+
+address:280013_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "PASEO DE LA CASTELLANA, 261" ;
+    sdo:postalCode       "28046" ;
+    sdo:addressLocality  "MADRID" ;
+    sdo:addressRegion    "COMUNIDAD DE MADRID" ;
+    sdo:addressCountry   "ES" .
+
+# --- Hospital Clínic de Barcelona ---
+hospital:080012 a sdo:Hospital ;
+    sdo:name             "HOSPITAL CLÍNIC DE BARCELONA" ;
+    sdo:identifier       "080012" ;
+    sdo:numberOfBeds     800 ;
+    sdo:address          address:080012_addr .
+
+address:080012_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "C/ VILLARROEL, 170" ;
+    sdo:postalCode       "08036" ;
+    sdo:addressLocality  "BARCELONA" ;
+    sdo:addressRegion    "CATALUÑA" ;
+    sdo:addressCountry   "ES" .
+
+# --- Hospital Universitario Virgen del Rocío (Sevilla) ---
+hospital:410001 a sdo:Hospital ;
+    sdo:name             "HOSPITAL UNIVERSITARIO VIRGEN DEL ROCÍO" ;
+    sdo:identifier       "410001" ;
+    sdo:numberOfBeds     1550 ;
+    sdo:address          address:410001_addr .
+
+address:410001_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "AV. MANUEL SIUROT, S/N" ;
+    sdo:postalCode       "41013" ;
+    sdo:addressLocality  "SEVILLA" ;
+    sdo:addressRegion    "ANDALUCÍA" ;
+    sdo:addressCountry   "ES" .
+
+# --- Hospital Universitario y Politécnico La Fe (Valencia) ---
+hospital:460005 a sdo:Hospital ;
+    sdo:name             "HOSPITAL UNIVERSITARIO Y POLITÉCNICO LA FE" ;
+    sdo:identifier       "460005" ;
+    sdo:numberOfBeds     1000 ;
+    sdo:address          address:460005_addr .
+
+address:460005_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "AV. FERNANDO ABRIL MARTORELL, 106" ;
+    sdo:postalCode       "46026" ;
+    sdo:addressLocality  "VALENCIA" ;
+    sdo:addressRegion    "COMUNITAT VALENCIANA" ;
+    sdo:addressCountry   "ES" .
+
+# --- Complejo Hospitalario Universitario de A Coruña ---
+hospital:150001 a sdo:Hospital ;
+    sdo:name             "COMPLEJO HOSPITALARIO UNIVERSITARIO DE A CORUÑA" ;
+    sdo:identifier       "150001" ;
+    sdo:numberOfBeds     1200 ;
+    sdo:address          address:150001_addr .
+
+address:150001_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "C/ AS XUBIAS DE ARRIBA, 84" ;
+    sdo:postalCode       "15006" ;
+    sdo:addressLocality  "A CORUÑA" ;
+    sdo:addressRegion    "GALICIA" ;
+    sdo:addressCountry   "ES" .
+
+# --- Hospital Universitario Donostia ---
+hospital:200001 a sdo:Hospital ;
+    sdo:name             "HOSPITAL UNIVERSITARIO DONOSTIA" ;
+    sdo:identifier       "200001" ;
+    sdo:numberOfBeds     900 ;
+    sdo:address          address:200001_addr .
+
+address:200001_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "PASEO DEL DR. BEGIRISTAIN, 117" ;
+    sdo:postalCode       "20014" ;
+    sdo:addressLocality  "SAN SEBASTIÁN" ;
+    sdo:addressRegion    "PAÍS VASCO" ;
+    sdo:addressCountry   "ES" .
+
+# --- Hospital Clínico Universitario Lozano Blesa (Zaragoza) ---
+hospital:500001 a sdo:Hospital ;
+    sdo:name             "HOSPITAL CLÍNICO UNIVERSITARIO LOZANO BLESA" ;
+    sdo:identifier       "500001" ;
+    sdo:numberOfBeds     850 ;
+    sdo:address          address:500001_addr .
+
+address:500001_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "C/ SAN JUAN BOSCO, 15" ;
+    sdo:postalCode       "50009" ;
+    sdo:addressLocality  "ZARAGOZA" ;
+    sdo:addressRegion    "ARAGÓN" ;
+    sdo:addressCountry   "ES" .
+
+# --- Hospital Universitario Virgen de la Arrixaca (Murcia) ---
+hospital:300001 a sdo:Hospital ;
+    sdo:name             "HOSPITAL UNIVERSITARIO VIRGEN DE LA ARRIXACA" ;
+    sdo:identifier       "300001" ;
+    sdo:numberOfBeds     750 ;
+    sdo:address          address:300001_addr .
+
+address:300001_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "CTRA. MADRID-CARTAGENA, S/N" ;
+    sdo:postalCode       "30120" ;
+    sdo:addressLocality  "EL PALMAR" ;
+    sdo:addressRegion    "REGIÓN DE MURCIA" ;
+    sdo:addressCountry   "ES" .
+
+# --- Hospital Universitario Son Espases (Palma) ---
+hospital:070001 a sdo:Hospital ;
+    sdo:name             "HOSPITAL UNIVERSITARIO SON ESPASES" ;
+    sdo:identifier       "070001" ;
+    sdo:numberOfBeds     600 ;
+    sdo:address          address:070001_addr .
+
+address:070001_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "CTRA. DE VALLDEMOSSA, 79" ;
+    sdo:postalCode       "07120" ;
+    sdo:addressLocality  "PALMA" ;
+    sdo:addressRegion    "ILLES BALEARS" ;
+    sdo:addressCountry   "ES" .
+
+# --- Hospital Universitario de Gran Canaria Dr. Negrín ---
+hospital:350001 a sdo:Hospital ;
+    sdo:name             "HOSPITAL UNIVERSITARIO DE GRAN CANARIA DR. NEGRÍN" ;
+    sdo:identifier       "350001" ;
+    sdo:numberOfBeds     700 ;
+    sdo:address          address:350001_addr .
+
+address:350001_addr a sdo:PostalAddress ;
+    sdo:streetAddress    "BARRANCO DE LA BALLENA, S/N" ;
+    sdo:postalCode       "35010" ;
+    sdo:addressLocality  "LAS PALMAS DE GRAN CANARIA" ;
+    sdo:addressRegion    "CANARIAS" ;
+    sdo:addressCountry   "ES" .

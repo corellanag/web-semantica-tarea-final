@@ -1,0 +1,157 @@
+# =============================================================================
+# Esquema de Validación SHACL (Shapes Constraint Language)
+# Equivalente al esquema ShEx - Clínica Bienestar + Hospitales
+# Tarea Final - Web Semántica y Datos Abiertos
+# =============================================================================
+
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix sdo:    <https://schema.org/> .
+@prefix clinic: <http://www.clinica-bienestar.es/ontology#> .
+@prefix shapes: <http://www.clinica-bienestar.es/shapes#> .
+
+# =============================================================================
+# SHAPE: PacienteShape
+# Valida instancias de clinic:Paciente
+# =============================================================================
+shapes:PacienteShape a sh:NodeShape ;
+    sh:targetClass clinic:Paciente ;
+    rdfs:label "Forma de Validación para Paciente"@es ;
+    rdfs:comment "Define las restricciones estructurales para un recurso de tipo clinic:Paciente."@es ;
+
+    # clinic:idPaciente - obligatorio, exactamente 1, tipo xsd:string
+    sh:property [
+        sh:path        clinic:idPaciente ;
+        sh:datatype    xsd:string ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "ID de Paciente"@es ;
+        sh:description "Identificador único interno del paciente."@es ;
+    ] ;
+
+    # foaf:name - obligatorio, exactamente 1, tipo xsd:string
+    sh:property [
+        sh:path        foaf:name ;
+        sh:datatype    xsd:string ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Nombre completo"@es ;
+    ] ;
+
+    # sdo:birthDate - obligatorio, exactamente 1, tipo xsd:date
+    sh:property [
+        sh:path        sdo:birthDate ;
+        sh:datatype    xsd:date ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Fecha de nacimiento"@es ;
+    ] ;
+
+    # clinic:tieneCita - opcional, 0 o más, debe apuntar a un nodo de tipo clinic:Cita
+    sh:property [
+        sh:path        clinic:tieneCita ;
+        sh:class       clinic:Cita ;
+        sh:minCount    0 ;
+        sh:name        "Tiene cita"@es ;
+        sh:node        shapes:CitaShape ;
+    ] .
+
+# =============================================================================
+# SHAPE: CitaShape
+# Valida instancias de clinic:Cita
+# =============================================================================
+shapes:CitaShape a sh:NodeShape ;
+    sh:targetClass clinic:Cita ;
+    rdfs:label "Forma de Validación para Cita Médica"@es ;
+
+    # clinic:fechaCita - obligatorio, exactamente 1, tipo xsd:dateTime
+    sh:property [
+        sh:path        clinic:fechaCita ;
+        sh:datatype    xsd:dateTime ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Fecha de la cita"@es ;
+    ] ;
+
+    # clinic:conDiagnostico - obligatorio, exactamente 1, tipo xsd:string
+    sh:property [
+        sh:path        clinic:conDiagnostico ;
+        sh:datatype    xsd:string ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Código de diagnóstico CIE-10"@es ;
+    ] .
+
+# =============================================================================
+# SHAPE: HospitalShape
+# Valida instancias de sdo:Hospital
+# =============================================================================
+shapes:HospitalShape a sh:NodeShape ;
+    sh:targetClass sdo:Hospital ;
+    rdfs:label "Forma de Validación para Hospital"@es ;
+
+    # sdo:name - obligatorio, exactamente 1, tipo xsd:string
+    sh:property [
+        sh:path        sdo:name ;
+        sh:datatype    xsd:string ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Nombre del hospital"@es ;
+    ] ;
+
+    # sdo:identifier - obligatorio, exactamente 1, tipo xsd:string
+    sh:property [
+        sh:path        sdo:identifier ;
+        sh:datatype    xsd:string ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Código Nacional de Hospital (CNH)"@es ;
+    ] ;
+
+    # sdo:address - obligatorio, exactamente 1, debe ser un nodo PostalAddress
+    sh:property [
+        sh:path        sdo:address ;
+        sh:class       sdo:PostalAddress ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Dirección postal"@es ;
+        sh:node        shapes:PostalAddressShape ;
+    ] .
+
+# =============================================================================
+# SHAPE: PostalAddressShape
+# Valida instancias de sdo:PostalAddress
+# =============================================================================
+shapes:PostalAddressShape a sh:NodeShape ;
+    sh:targetClass sdo:PostalAddress ;
+    rdfs:label "Forma de Validación para Dirección Postal"@es ;
+
+    # sdo:streetAddress - obligatorio, exactamente 1, tipo xsd:string
+    sh:property [
+        sh:path        sdo:streetAddress ;
+        sh:datatype    xsd:string ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Dirección de la calle"@es ;
+    ] ;
+
+    # sdo:postalCode - obligatorio, exactamente 1, tipo xsd:string
+    sh:property [
+        sh:path        sdo:postalCode ;
+        sh:datatype    xsd:string ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Código postal"@es ;
+    ] ;
+
+    # sdo:addressLocality - obligatorio, exactamente 1, tipo xsd:string
+    sh:property [
+        sh:path        sdo:addressLocality ;
+        sh:datatype    xsd:string ;
+        sh:minCount    1 ;
+        sh:maxCount    1 ;
+        sh:name        "Localidad"@es ;
+    ] .

@@ -1,0 +1,140 @@
+# =============================================================================
+# Consultas SPARQL - Clínica Bienestar + Catálogo Nacional de Hospitales
+# Tarea Final - Web Semántica y Datos Abiertos
+# =============================================================================
+
+# PREFIX comunes (incluir en cada consulta)
+PREFIX rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd:         <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf:        <http://xmlns.com/foaf/0.1/>
+PREFIX sdo:         <https://schema.org/>
+PREFIX clinic:      <http://www.clinica-bienestar.es/ontology#>
+PREFIX patient:     <http://www.clinica-bienestar.es/data/patient/>
+PREFIX appointment: <http://www.clinica-bienestar.es/data/appointment/>
+PREFIX hospital:    <http://datos.gob.es/recurso/hospital/>
+
+# =============================================================================
+# CONSULTA 1: Listar todos los pacientes con su nombre e ID
+# =============================================================================
+SELECT ?paciente ?id ?nombre
+WHERE {
+  ?paciente a clinic:Paciente ;
+            clinic:idPaciente ?id ;
+            foaf:name ?nombre .
+}
+ORDER BY ?id
+
+# =============================================================================
+# CONSULTA 2: Obtener todas las citas de un paciente específico
+# =============================================================================
+SELECT ?nombre ?cita ?fecha ?diagnostico
+WHERE {
+  ?paciente foaf:name ?nombre ;
+            clinic:tieneCita ?cita .
+  ?cita clinic:fechaCita ?fecha ;
+        clinic:conDiagnostico ?diagnostico .
+  FILTER(?nombre = "Carlos Sánchez")
+}
+ORDER BY ?fecha
+
+# =============================================================================
+# CONSULTA 3: Contar el número de citas por paciente
+# =============================================================================
+SELECT ?nombre (COUNT(?cita) AS ?numCitas)
+WHERE {
+  ?paciente a clinic:Paciente ;
+            foaf:name ?nombre ;
+            clinic:tieneCita ?cita .
+}
+GROUP BY ?nombre
+ORDER BY DESC(?numCitas)
+
+# =============================================================================
+# CONSULTA 4: Buscar pacientes con diagnóstico de Hipertensión (I10)
+# =============================================================================
+SELECT ?nombre ?fecha
+WHERE {
+  ?paciente a clinic:Paciente ;
+            foaf:name ?nombre ;
+            clinic:tieneCita ?cita .
+  ?cita clinic:fechaCita ?fecha ;
+        clinic:conDiagnostico "I10" .
+}
+ORDER BY ?fecha
+
+# =============================================================================
+# CONSULTA 5: Listar todos los hospitales con su dirección
+# =============================================================================
+SELECT ?hospital ?nombre ?calle ?cp ?ciudad
+WHERE {
+  ?hospital a sdo:Hospital ;
+            sdo:name ?nombre ;
+            sdo:address ?addr .
+  ?addr sdo:streetAddress ?calle ;
+        sdo:postalCode ?cp ;
+        sdo:addressLocality ?ciudad .
+}
+ORDER BY ?ciudad
+
+# =============================================================================
+# CONSULTA 6: Hospitales en una comunidad autónoma específica
+# =============================================================================
+SELECT ?nombre ?ciudad ?region
+WHERE {
+  ?hospital a sdo:Hospital ;
+            sdo:name ?nombre ;
+            sdo:address ?addr .
+  ?addr sdo:addressLocality ?ciudad ;
+        sdo:addressRegion ?region .
+  FILTER(CONTAINS(UCASE(?region), "MADRID"))
+}
+
+# =============================================================================
+# CONSULTA 7: Citas realizadas en 2026
+# =============================================================================
+SELECT ?nombre ?fecha ?diagnostico
+WHERE {
+  ?paciente a clinic:Paciente ;
+            foaf:name ?nombre ;
+            clinic:tieneCita ?cita .
+  ?cita clinic:fechaCita ?fecha ;
+        clinic:conDiagnostico ?diagnostico .
+  FILTER(YEAR(?fecha) = 2026)
+}
+ORDER BY ?fecha
+
+# =============================================================================
+# CONSULTA 8: CONSTRUCT - Crear un grafo con pacientes y sus diagnósticos
+# =============================================================================
+CONSTRUCT {
+  ?paciente foaf:name ?nombre ;
+            clinic:conDiagnostico ?diagnostico .
+}
+WHERE {
+  ?paciente a clinic:Paciente ;
+            foaf:name ?nombre ;
+            clinic:tieneCita ?cita .
+  ?cita clinic:conDiagnostico ?diagnostico .
+}
+
+# =============================================================================
+# CONSULTA 9: ASK - ¿Existe algún paciente con diabetes (E11)?
+# =============================================================================
+ASK {
+  ?paciente a clinic:Paciente ;
+            clinic:tieneCita ?cita .
+  ?cita clinic:conDiagnostico "E11" .
+}
+
+# =============================================================================
+# CONSULTA 10: Pacientes con más de una cita (usando HAVING)
+# =============================================================================
+SELECT ?nombre (COUNT(?cita) AS ?totalCitas)
+WHERE {
+  ?paciente a clinic:Paciente ;
+            foaf:name ?nombre ;
+            clinic:tieneCita ?cita .
+}
+GROUP BY ?nombre
+HAVING (COUNT(?cita) > 1)
+ORDER BY DESC(?totalCitas)
