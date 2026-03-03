@@ -1,0 +1,110 @@
+# =============================================================================
+# Grafo RDF de Datos Privados - Clínica Bienestar
+# Tarea Final - Web Semántica y Datos Abiertos
+# Universidad Técnica Federico Santa María
+# =============================================================================
+
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf:        <http://xmlns.com/foaf/0.1/> .
+@prefix sdo:         <https://schema.org/> .
+@prefix clinic:      <http://www.clinica-bienestar.es/ontology#> .
+@prefix patient:     <http://www.clinica-bienestar.es/data/patient/> .
+@prefix appointment: <http://www.clinica-bienestar.es/data/appointment/> .
+
+# --- Definición de Clases ---
+clinic:Paciente a rdfs:Class ;
+    rdfs:label "Paciente"@es ;
+    rdfs:comment "Representa a un individuo atendido en la Clínica Bienestar."@es .
+
+clinic:Cita a rdfs:Class ;
+    rdfs:label "Cita Médica"@es ;
+    rdfs:comment "Representa un evento de consulta médica programada."@es .
+
+# --- Definición de Propiedades ---
+clinic:idPaciente a rdf:Property ;
+    rdfs:label "ID de Paciente"@es ;
+    rdfs:domain clinic:Paciente ;
+    rdfs:range xsd:string .
+
+clinic:tieneCita a rdf:Property ;
+    rdfs:label "tiene cita"@es ;
+    rdfs:domain clinic:Paciente ;
+    rdfs:range clinic:Cita .
+
+clinic:fechaCita a rdf:Property ;
+    rdfs:label "fecha de cita"@es ;
+    rdfs:domain clinic:Cita ;
+    rdfs:range xsd:dateTime .
+
+clinic:conDiagnostico a rdf:Property ;
+    rdfs:label "con diagnóstico CIE-10"@es ;
+    rdfs:domain clinic:Cita ;
+    rdfs:range xsd:string .
+
+# --- Descripción de Pacientes ---
+
+patient:7821a a clinic:Paciente ;
+    clinic:idPaciente   "P7821A" ;
+    foaf:name           "Carlos Sánchez" ;
+    sdo:birthDate       "1978-04-12"^^xsd:date ;
+    clinic:tieneCita    appointment:c20250915, appointment:c20260120 .
+
+patient:9345b a clinic:Paciente ;
+    clinic:idPaciente   "P9345B" ;
+    foaf:name           "Laura Martínez" ;
+    sdo:birthDate       "1990-07-23"^^xsd:date ;
+    clinic:tieneCita    appointment:c20260122 .
+
+patient:4412c a clinic:Paciente ;
+    clinic:idPaciente   "P4412C" ;
+    foaf:name           "Miguel Torres" ;
+    sdo:birthDate       "1965-11-05"^^xsd:date ;
+    clinic:tieneCita    appointment:c20260205, appointment:c20260301 .
+
+patient:6678d a clinic:Paciente ;
+    clinic:idPaciente   "P6678D" ;
+    foaf:name           "Ana García" ;
+    sdo:birthDate       "1983-02-18"^^xsd:date ;
+    clinic:tieneCita    appointment:c20260210 .
+
+patient:3301e a clinic:Paciente ;
+    clinic:idPaciente   "P3301E" ;
+    foaf:name           "Pedro Ramírez" ;
+    sdo:birthDate       "1955-09-30"^^xsd:date ;
+    clinic:tieneCita    appointment:c20260215, appointment:c20260228 .
+
+# --- Descripción de Citas ---
+
+appointment:c20250915 a clinic:Cita ;
+    clinic:fechaCita       "2025-09-15T10:00:00Z"^^xsd:dateTime ;
+    clinic:conDiagnostico  "I10" .   # Hipertensión esencial
+
+appointment:c20260120 a clinic:Cita ;
+    clinic:fechaCita       "2026-01-20T11:30:00Z"^^xsd:dateTime ;
+    clinic:conDiagnostico  "J06.9" . # Infección aguda vías respiratorias superiores
+
+appointment:c20260122 a clinic:Cita ;
+    clinic:fechaCita       "2026-01-22T09:15:00Z"^^xsd:dateTime ;
+    clinic:conDiagnostico  "E11" .   # Diabetes mellitus tipo 2
+
+appointment:c20260205 a clinic:Cita ;
+    clinic:fechaCita       "2026-02-05T08:30:00Z"^^xsd:dateTime ;
+    clinic:conDiagnostico  "M54.5" . # Lumbago no especificado
+
+appointment:c20260301 a clinic:Cita ;
+    clinic:fechaCita       "2026-03-01T10:00:00Z"^^xsd:dateTime ;
+    clinic:conDiagnostico  "M54.5" . # Lumbago no especificado (seguimiento)
+
+appointment:c20260210 a clinic:Cita ;
+    clinic:fechaCita       "2026-02-10T14:00:00Z"^^xsd:dateTime ;
+    clinic:conDiagnostico  "F32.0" . # Episodio depresivo leve
+
+appointment:c20260215 a clinic:Cita ;
+    clinic:fechaCita       "2026-02-15T09:00:00Z"^^xsd:dateTime ;
+    clinic:conDiagnostico  "I25.1" . # Enfermedad aterosclerótica del corazón
+
+appointment:c20260228 a clinic:Cita ;
+    clinic:fechaCita       "2026-02-28T11:00:00Z"^^xsd:dateTime ;
+    clinic:conDiagnostico  "I10" .   # Hipertensión esencial (seguimiento)
